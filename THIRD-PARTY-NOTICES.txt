@@ -1,0 +1,144 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+CodeBrix.YamlParse is a fully managed .NET library for reading, parsing,
+emitting, and serializing YAML. It is a faithful port of the YamlDotNet
+library (version 18.1.0) into the CodeBrix.YamlParse.* namespace, targeting
+.NET 10.
+
+Unlike most CodeBrix libraries, CodeBrix.YamlParse DOES incorporate
+third-party source code: the entire library is derived from YamlDotNet, whose
+own YAML scanner/parser/emitter is in turn derived from the libyaml C library.
+Both upstream projects are distributed under the MIT License, which is
+compatible with this project's MIT License. Their copyright notices and
+license texts are reproduced below, as the MIT License requires.
+
+================================================================================
+1. YamlDotNet
+================================================================================
+
+Project:    YamlDotNet
+Source:     https://github.com/aaubry/YamlDotNet
+Version:    v18.1.0 (git tag v18.1.0)
+Authors:    Antoine Aubry and contributors
+License:    MIT
+
+Scope of incorporation:
+  Substantially all of the YamlDotNet 18.1.0 library source (the "YamlDotNet"
+  project / NuGet package) was ported into this repository under
+  src/CodeBrix.YamlParse/, preserving each upstream file's original MIT license
+  header verbatim. The ported areas are:
+    - CodeBrix.YamlParse            (root reflection / helper utilities)
+    - CodeBrix.YamlParse.Core       (scanner, parser, emitter, events, tokens)
+    - CodeBrix.YamlParse.Helpers
+    - CodeBrix.YamlParse.Portability
+    - CodeBrix.YamlParse.RepresentationModel (YamlStream / YamlDocument / nodes)
+    - CodeBrix.YamlParse.Serialization      (Serializer/Deserializer + builders,
+                                             converters, naming conventions,
+                                             node (de)serializers, type
+                                             inspectors/resolvers, schemas, etc.)
+
+Modifications made during the port (per CodeBrix family conventions):
+  - Namespace rename: every `YamlDotNet[.X.Y...]` namespace became
+    `CodeBrix.YamlParse[.X.Y...]`; each ported file's namespace line carries a
+    `//was previously: <upstream-namespace>;` provenance comment.
+  - Block-scoped namespaces were converted to file-scoped namespaces.
+  - The library now targets net10.0 only (upstream multi-targeted
+    net10.0;net8.0;netstandard2.0;netstandard2.1;net47). The upstream
+    framework-selection `#if` directives were preserved rather than stripped;
+    on net10.0 the compiler selects the modern branches, so the legacy
+    netstandard / .NET Framework branches are inert dead code retained for
+    auditability.
+  - Strong-name signing was dropped. Upstream's
+    YamlDotNet/Properties/CustomAssemblyInfo.cs (and AssemblyInfo.template),
+    which carried strong-name InternalsVisibleTo and assembly attributes, were
+    NOT ported; this repository uses the CodeBrix-standard
+    src/CodeBrix.YamlParse/InternalsVisibleTo.cs granting internals access to
+    CodeBrix.YamlParse.Tests (no public key).
+  - The upstream `Nullable` polyfill NuGet PackageReference was dropped; net10
+    provides the nullable-annotation attributes in the BCL.
+  - The upstream YamlDotNet.Analyzers.StaticGenerator Roslyn source generator
+    (a separate project that emits AOT-friendly static serialization contexts)
+    was NOT ported in this iteration. The StaticSerializerBuilder /
+    StaticDeserializerBuilder API surface is present, but the compile-time
+    generator that produces the static type contexts is deferred to a future
+    iteration.
+  - A small number of nullable-reference-type flow warnings (CS8602/CS8604)
+    that upstream suppresses via <NoWarn> were instead resolved at the source
+    with behavior-preserving null-handling so this repository builds warning-free
+    without project-level warning suppression.
+
+License text (YamlDotNet, MIT):
+
+Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013, 2014 Antoine Aubry and contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+2. libyaml
+================================================================================
+
+Project:    libyaml (LibYAML)
+Source:     https://github.com/yaml/libyaml
+Authors:    Kirill Simonov
+License:    MIT
+
+Scope of incorporation:
+  YamlDotNet's low-level YAML scanner, parser, and emitter (now ported here as
+  CodeBrix.YamlParse.Core) are a C#/.NET port of the libyaml C library. The
+  libyaml copyright notice and license therefore travel with this derivative
+  work, and are reproduced below. No libyaml C source is present in this
+  repository; the obligation arises from YamlDotNet's earlier derivation of its
+  Core scanner/parser/emitter from libyaml.
+
+License text (libyaml, MIT):
+
+Copyright (c) 2006 Kirill Simonov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+Jeremy Ellis and contributors license the CodeBrix.YamlParse project to you
+under the terms set forth in the LICENSE file, which is located at the root of
+this repository.
+
+If you have any questions about any third-party code referenced here, or if you
+believe that any third-party code has been included in CodeBrix.YamlParse in
+error, please open a new issue at:
+https://github.com/ellisnet/CodeBrix.YamlParse/issues
+
+================================================================================
+
+END OF THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
