@@ -30,7 +30,6 @@ Scope of incorporation:
     - CodeBrix.YamlParse            (root reflection / helper utilities)
     - CodeBrix.YamlParse.Core       (scanner, parser, emitter, events, tokens)
     - CodeBrix.YamlParse.Helpers
-    - CodeBrix.YamlParse.Portability
     - CodeBrix.YamlParse.RepresentationModel (YamlStream / YamlDocument / nodes)
     - CodeBrix.YamlParse.Serialization      (Serializer/Deserializer + builders,
                                              converters, naming conventions,
