@@ -35,9 +35,9 @@ together:
      a full pipeline of replaceable components sit in this namespace and its
      sub-namespaces. This is the layer most consumers want.
 
-Provenance: CodeBrix.YamlParse is a faithful port of YamlDotNet 18.1.0 (MIT),
-which itself derives its scanner/parser/emitter from the libyaml C library
-(MIT). Type names, member names and behaviour follow the upstream library, but
+Provenance: CodeBrix.YamlParse is a faithful port of YamlDotNet (MIT), which
+itself derives its scanner/parser/emitter from the libyaml C library (MIT).
+The exact upstream release is recorded in THIRD-PARTY-NOTICES.txt. Type names, member names and behaviour follow the upstream library, but
 the namespaces do NOT: everything lives under `CodeBrix.YamlParse.*`. Do not
 write `using YamlDotNet...` -- those namespaces do not exist in this package,
 and do not add the upstream package alongside this one.

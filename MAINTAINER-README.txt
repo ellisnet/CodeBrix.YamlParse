@@ -28,7 +28,17 @@ goal; feature growth is not.
 REPOSITORY LAYOUT
 =================
 
-  CodeBrix.YamlParse.slnx             solution (Solution Items + Tests folders)
+  CodeBrix.YamlParse.slnx             solution; its Solution Items folder
+                                      carries .gitignore, AGENT-README.txt,
+                                      EXTRAS-README.txt, global.json,
+                                      icon-codebrix-128.png, LICENSE,
+                                      MAINTAINER-README.txt, README-INDEX.txt,
+                                      README.md and THIRD-PARTY-NOTICES.txt,
+                                      and its Tests folder carries the test
+                                      project. Update the list when a root file
+                                      is added or removed.
+  global.json                         selects the Microsoft.Testing.Platform
+                                      test runner; does NOT pin an SDK version
   AGENT-README.txt                    consumer documentation; SHIPS in the
                                       nupkg
   MAINTAINER-README.txt               this file
@@ -102,6 +112,16 @@ BUILDING
   dotnet restore CodeBrix.YamlParse.slnx
   dotnet build   CodeBrix.YamlParse.slnx
 
+`global.json` at the repo root does NOT pin an SDK version, so the newest
+installed .NET 10 SDK is still used. It exists solely to select the test
+runner:
+
+  { "test": { "runner": "Microsoft.Testing.Platform" } }
+
+Because that setting lives in global.json rather than in the csproj, it applies
+to every `dotnet test` run anywhere in the repository, including CI. Keep the
+file committed -- see TESTING.
+
 Target framework is `net10.0` only, and it stays that way -- the CodeBrix
 family is .NET 10 or later, full stop; `netstandard` targets exist elsewhere in
 the family only for Roslyn analyzer hosts, which this repository does not have.
@@ -123,10 +143,16 @@ TESTING
 
   dotnet test CodeBrix.YamlParse.slnx
 
+THE TEST RUNNER IS Microsoft.Testing.Platform (MTP), selected by `global.json`
+at the repo root. Do not delete that file; without it, `dotnet test` falls back
+to the older VSTest bridge. You can tell which one ran: MTP output ends in a
+"Test run summary:" block, while the VSTest bridge invokes MSBuild with
+`--target:VSTest`.
+
 Roughly 30 tests across six test classes, plus a shared `TestModels.cs`
 helper. Stack: xUnit v3 (`xunit.v3`) with `xunit.runner.visualstudio`,
-`Microsoft.NET.Test.Sdk`, `coverlet.collector` and SilverAssertions (fluent
-`.Should()` form). This is a fresh CodeBrix-convention suite, NOT a port of
+`Microsoft.NET.Test.Sdk` and SilverAssertions (fluent `.Should()` form). There
+is no coverage collector in the test project. This is a fresh CodeBrix-convention suite, NOT a port of
 YamlDotNet's own test project -- upstream's tests depend on FakeItEasy and
 FluentAssertions, neither of which is used anywhere in the CodeBrix family.
 
@@ -186,9 +212,10 @@ produce the same version, so do not publish twice within one minute.
 
 Publishing rules that apply to this repository:
 
-  * Never write a version number into AGENT-README.txt. The one exception is
-    the upstream source version in the provenance sentence ("a port of
-    YamlDotNet 18.1.0"), which is a historical fact, not a pin.
+  * Never write a version number into AGENT-README.txt -- not even the
+    upstream source version. The provenance sentence there points at
+    THIRD-PARTY-NOTICES.txt, which is where the exact upstream release is
+    recorded.
   * The git tag for a release must match the published nuget.org version.
   * The package id keeps its `.MitLicenseForever` suffix; the assembly and the
     namespaces never carry it.

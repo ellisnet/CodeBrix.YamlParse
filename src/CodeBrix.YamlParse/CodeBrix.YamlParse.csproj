@@ -71,7 +71,7 @@
     <Product>CodeBrix.YamlParse</Product>
     <Title>CodeBrix.YamlParse</Title>
     <Authors>Jeremy Ellis</Authors>
-    <Description>CodeBrix.YamlParse is a fully managed .NET library for YAML, ported from YamlDotNet 18.1.0. It provides low-level parsing and emitting of YAML, a high-level representation model similar to XmlDocument, and a serialization library that reads and writes objects from and to YAML streams. Targets .NET 10 with no dependencies other than .NET.</Description>
+    <Description>CodeBrix.YamlParse is a fully managed .NET library for YAML. It provides low-level parsing and emitting of YAML, a high-level representation model similar to XmlDocument, and a serialization library that reads and writes objects from and to YAML streams. Targets .NET 10 with no dependencies other than .NET.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ellisnet/CodeBrix.YamlParse</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ellisnet/CodeBrix.YamlParse</RepositoryUrl>

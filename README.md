@@ -1,11 +1,26 @@
 # CodeBrix.YamlParse
 
-A fully managed, cross-platform YAML library for .NET — a faithful port of [YamlDotNet](https://github.com/aaubry/YamlDotNet) 18.1.0 into the `CodeBrix.YamlParse` namespace. It provides low-level parsing and emitting of YAML, a high-level representation model similar to `XmlDocument`, and a serialization library that reads and writes objects from and to YAML streams.
+A fully managed, cross-platform YAML library for .NET. It provides low-level parsing and emitting of YAML, a high-level representation model similar to `XmlDocument`, and a serialization library that reads and writes objects from and to YAML streams.
 CodeBrix.YamlParse has no dependencies other than .NET, and is provided as a .NET 10 library and associated `CodeBrix.YamlParse.MitLicenseForever` NuGet package.
 
 CodeBrix.YamlParse supports applications and assemblies that target Microsoft .NET version 10.0 and later.
 Microsoft .NET version 10.0 is a Long-Term Supported (LTS) version of .NET, and was released on Nov 11, 2025; and will be actively supported by Microsoft until Nov 14, 2028.
 Please update your C#/.NET code and projects to the latest LTS version of Microsoft .NET.
+
+## Installation
+
+```
+dotnet add package CodeBrix.YamlParse.MitLicenseForever
+```
+
+Note that the NuGet package ID and the namespace are different - there is no package named plain `CodeBrix.YamlParse`:
+
+* NuGet package ID: `CodeBrix.YamlParse.MitLicenseForever`
+* Assembly and primary namespace: `CodeBrix.YamlParse` - i.e. `using CodeBrix.YamlParse.Serialization;`
+
+XML documentation (IntelliSense) ships alongside the assembly.
+
+The package has no NuGet dependencies at all - nothing beyond .NET itself is pulled in.
 
 ## CodeBrix.YamlParse supports:
 
@@ -65,8 +80,18 @@ foreach (var item in root.Children)
 }
 ```
 
+## Documentation
+
+The NuGet package includes `AGENT-README.txt`, a complete API reference and usage guide written for AI coding agents - point your agent at that file when it is writing code against this library.
+
+Additional sample code and usage examples are available in the `CodeBrix.YamlParse.Tests` project:
+https://github.com/ellisnet/CodeBrix.YamlParse/tree/main/tests/CodeBrix.YamlParse.Tests
+
 ## License
 
-The project is licensed under the MIT License. see: https://en.wikipedia.org/wiki/MIT_License
+CodeBrix.YamlParse is licensed under the MIT License - see the
+[LICENSE](https://github.com/ellisnet/CodeBrix.YamlParse/blob/main/LICENSE) file.
 
-CodeBrix.YamlParse is a derivative work of YamlDotNet (MIT) and, through it, libyaml (MIT). Their copyright notices and license texts are reproduced in [THIRD-PARTY-NOTICES.txt](./THIRD-PARTY-NOTICES.txt).
+For licensing and provenance information about the open source code included in
+this package - the copyright notices and license texts of everything it is built
+from - see [THIRD-PARTY-NOTICES.txt](https://github.com/ellisnet/CodeBrix.YamlParse/blob/main/THIRD-PARTY-NOTICES.txt).
