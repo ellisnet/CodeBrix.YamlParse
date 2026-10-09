@@ -41,7 +41,7 @@ access. Everything runs offline and in-process, and nothing under the
 repository is written to while it runs.
 
 See MAINTAINER-README.txt for the test framework, naming conventions and the
-list of areas the suite does not yet cover.
+list of areas the suite does not cover.
 
 
 WHAT IS NOT IN THIS REPOSITORY

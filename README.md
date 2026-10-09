@@ -18,7 +18,7 @@ Note that the NuGet package ID and the namespace are different - there is no pac
 * NuGet package ID: `CodeBrix.YamlParse.MitLicenseForever`
 * Assembly and primary namespace: `CodeBrix.YamlParse` - i.e. `using CodeBrix.YamlParse.Serialization;`
 
-XML documentation (IntelliSense) ships alongside the assembly.
+No XML documentation (IntelliSense) file ships with the assembly.
 
 The package has no NuGet dependencies at all - nothing beyond .NET itself is pulled in.
 

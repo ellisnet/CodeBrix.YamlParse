@@ -281,8 +281,8 @@ the family defaults and are also recorded as comments in the csproj.
   EXCEPTION 2 -- `<GenerateDocumentationFile>false</GenerateDocumentationFile>`
   for this library, where the normal family rule is `true` and requires an XML
   doc comment on every public member. The ported public surface is hundreds of
-  members and is undocumented upstream. With the doc file off, CS1591 does not
-  fire, so no `<NoWarn>` is needed. Many ported types DO already carry
+  members and is undocumented upstream. With the doc file off, CS1591 is not
+  reported, so no `<NoWarn>` is needed. Many ported types DO already carry
   upstream `///` comments; new public members added later should be
   documented.
 

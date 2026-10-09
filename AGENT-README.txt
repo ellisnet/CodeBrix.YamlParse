@@ -398,8 +398,9 @@ NAMING CONVENTIONS
 `public interface INamingConvention { string Apply(string value); string Reverse(string value); }`
 
 Six implementations in `CodeBrix.YamlParse.Serialization.NamingConventions`, each
-sealed with a public parameterless constructor and a
-`public static readonly INamingConvention Instance` field:
+sealed with a `public static readonly INamingConvention Instance` field. Always
+use `Instance`: five of the six parameterless constructors are marked
+[Obsolete], and LowerCaseNamingConvention's constructor is private.
 
     CamelCaseNamingConvention        MyProperty -> myProperty
     PascalCaseNamingConvention       myProperty -> MyProperty
@@ -1225,8 +1226,11 @@ POSITIONS AND ERRORS
         public string ToMessage();
     }
 
-Every failure in the library is a `YamlException` or one of these subclasses,
-all in `CodeBrix.YamlParse.Core`:
+YAML parsing and (de)serialization failures are reported as a `YamlException`
+or one of these subclasses, all in `CodeBrix.YamlParse.Core` (argument
+validation and API misuse throw the usual BCL types instead --
+`ArgumentNullException`, `ArgumentException`, `InvalidOperationException`,
+`NotSupportedException`):
 
     SyntaxErrorException                    sealed -- malformed YAML text
     SemanticErrorException                          -- well-formed but meaningless
@@ -1689,6 +1693,7 @@ EXAMPLE 10 -- Error handling with positions
     using System;
     using CodeBrix.YamlParse.Core;
     using CodeBrix.YamlParse.Serialization;
+    using CodeBrix.YamlParse.Serialization.NamingConventions;
 
     namespace YamlDemo;
 
@@ -1698,12 +1703,16 @@ EXAMPLE 10 -- Error handling with positions
     {
         public static void Main()
         {
-            IDeserializer deserializer = new DeserializerBuilder().Build();
+            // The naming convention maps the "retries" key to the Retries property;
+            // without it, matching is case-sensitive and every key below misses.
+            IDeserializer deserializer = new DeserializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build();
 
-            TryLoad(deserializer, "retries: [1, 2");        // SyntaxErrorException
+            TryLoad(deserializer, "retries: 'unterminated"); // SyntaxErrorException
             TryLoad(deserializer, "retries: many");         // YamlException wrapping a FormatException
             TryLoad(deserializer, "retreis: 3");            // YamlException: property not found
-            TryLoad(deserializer, "value: *missing");       // AnchorNotFoundException
+            TryLoad(deserializer, "retries: *missing");     // AnchorNotFoundException
         }
 
         private static void TryLoad(IDeserializer deserializer, string yaml)
@@ -1718,7 +1727,7 @@ EXAMPLE 10 -- Error handling with positions
                 Console.WriteLine($"malformed YAML at line {ex.Start.Line}, "
                                   + $"col {ex.Start.Column}: {ex.Message}");
             }
-            catch (YamlException ex)     // base class: catches every failure this library raises
+            catch (YamlException ex)     // base class: catches every YAML failure this library raises
             {
                 Console.WriteLine($"line {ex.Start.Line}, col {ex.Start.Column}: {ex.Message}");
                 if (ex.InnerException is not null)
